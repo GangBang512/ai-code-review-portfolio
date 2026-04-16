@@ -1,0 +1,35 @@
+{
+  "task_id": "python-sql-injection-001",
+  "task_type": "ranking",
+  "prompt": "Refactor the following Python snippet to retrieve a user by username from a sqlite database securely.",
+  "original_code": "import sqlite3\ndef get_user(username):\n    conn = sqlite3.connect('users.db')\n    cursor = conn.cursor()\n    query = f\"SELECT * FROM users WHERE username = '{username}'\"\n    cursor.execute(query)\n    return cursor.fetchone()",
+  "models": [
+    {
+      "model_id": "model_a",
+      "response": "import sqlite3\n\ndef get_user(username):\n    try:\n        conn = sqlite3.connect('users.db')\n        cursor = conn.cursor()\n        query = \"SELECT * FROM users WHERE username = ?\"\n        cursor.execute(query, (username,))\n        return cursor.fetchone()\n    finally:\n        conn.close()",
+      "rank": 1
+    },
+    {
+      "model_id": "model_b",
+      "response": "import sqlite3\n\nwith sqlite3.connect('users.db') as conn:\n    cursor = conn.cursor()\n    query = \"SELECT * FROM users WHERE username = %s\"\n    cursor.execute(query, username)\n    return cursor.fetchone()",
+      "rank": 2
+    }
+  ],
+  "justification": {
+    "summary": "Model A is preferred over Model B due to correct driver-specific syntax and proper connection closing.",
+    "claims": [
+      {
+        "type": "Security/Correctness",
+        "claim": "Model A uses correct SQLite parameterization syntax.",
+        "evidence": "Model A uses '?' whereas Model B uses '%s' which is invalid for sqlite3.",
+        "actionable": "Model B must use '?' for SQLite drivers."
+      },
+      {
+        "type": "Resource Management",
+        "claim": "Model A explicitly closes the connection.",
+        "evidence": "Model A uses a finally block with conn.close().",
+        "actionable": "Encourage use of context managers that actually close connections in specific library contexts."
+      }
+    ]
+  }
+}

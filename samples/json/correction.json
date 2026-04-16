@@ -1,0 +1,9 @@
+{
+  "task_id": "csharp-resource-leak-003",
+  "task_type": "correction",
+  "prompt": "Fix memory leaks in this C# web API method.",
+  "buggy_code": "[HttpPost(\"process\")]\npublic async void ProcessData([FromBody] DataPayload payload)\n{\n    var dataStream = new MemoryStream(payload.Bytes);\n    var processor = new LegacyDataProcessor(dataStream);\n    await processor.RunAsync();\n}",
+  "ai_flawed_fix": "[HttpPost(\"process\")]\npublic async Task ProcessData([FromBody] DataPayload payload)\n{\n    var dataStream = new MemoryStream(payload.Bytes);\n    var processor = new LegacyDataProcessor(dataStream);\n    await processor.RunAsync().ConfigureAwait(false);\n    payload.Bytes = null;\n}",
+  "corrected_fix": "[HttpPost(\"process\")]\npublic async Task<IActionResult> ProcessData([FromBody] DataPayload payload)\n{\n    using var dataStream = new MemoryStream(payload.Bytes);\n    var processor = new LegacyDataProcessor(dataStream);\n    await processor.RunAsync();\n    return Ok();\n}",
+  "justification": "The AI fix failed to dispose of the MemoryStream. Deterministic disposal via 'using' is the standard fix for IDisposable resource leaks in .NET."
+}

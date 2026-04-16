@@ -1,0 +1,29 @@
+{
+  "task_id": "java-string-equality-002",
+  "task_type": "scoring",
+  "prompt": "Fix the Java authentication bug where isValid always returns false despite correct passwords.",
+  "original_code": "public boolean authenticate(User user, String providedPassword) {\n    String hashedInput = HashUtils.sha256(providedPassword);\n    return (user.getPasswordHash() == hashedInput);\n}",
+  "model_response": "public boolean authenticate(User user, String providedPassword) {\n    String hashedInput = HashUtils.sha256(providedPassword);\n    return user.getPasswordHash().equals(hashedInput);\n}",
+  "scores": {
+    "correctness": 5,
+    "educational_value": 4,
+    "security": 2
+  },
+  "justification": {
+    "summary": "Fixes the logic bug but fails to address high-risk security items like timing attacks.",
+    "claims": [
+      {
+        "type": "Correctness",
+        "claim": "Correctly identifies reference vs value equality in Java.",
+        "evidence": "Switched == to .equals()",
+        "implication": "Code is now functionally correct."
+      },
+      {
+        "type": "Security",
+        "claim": "Missing timing attack protection and weak hashing warnings.",
+        "evidence": "Left HashUtils.sha256 and used standard .equals() compare.",
+        "actionable": "Recommend constant-time comparison like MessageDigest.isEqual."
+      }
+    ]
+  }
+}
