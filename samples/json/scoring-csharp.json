@@ -1,0 +1,26 @@
+{
+  "task_id": "csharp-resource-management-004",
+  "task_type": "scoring",
+  "prompt": "Identify why file handles accumulate and NullReferenceException occurs in this ConfigLoader.",
+  "models": [
+    {
+      "model_id": "model_a",
+      "score": 5,
+      "justification": "Correctly identifies both unmanaged resource leak and null deserialization result. Uses idiomatic C# 'using var'."
+    },
+    {
+      "model_id": "model_b",
+      "score": 3,
+      "justification": "Identifies handle leak but misses the null-safety issue."
+    },
+    {
+      "model_id": "model_c",
+      "score": 1,
+      "justification": "Suggests non-exception-safe .Close() calls and misses the null-safety issue."
+    }
+  ],
+  "technical_details": {
+    "resource_management": "IDisposable objects must be disposed deterministically. using blocks are the standard.",
+    "logic_safety": "JSON deserialization must be validated before access."
+  }
+}
