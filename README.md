@@ -18,13 +18,15 @@ This repository showcases my methodology and various sample tasks.
 2.  **[Java Authentication Bug (Scoring Task)](./samples/scoring-task-1-java-auth.md)**: Debugging string comparison issues (`==` vs `.equals()`) and concurrency exceptions.
 3.  **[C# Resource Management (Correction Task)](./samples/correction-task-1-csharp-memory.md)**: Fixing memory leaks and async boundaries.
 4.  **[C# Configuration Loader (Scoring Task)](./samples/scoring-task-2-csharp-config.md)**: Identifying `IDisposable` leaks and null-safety issues.
-5.  **[React Component Performance (Ranking Task)](./samples/ranking-task-2-react-performance.md)**: Eliminating excessive re-renders and preventing unstable function references over multiple rendering cycles.
+5.  **[C# Async & LINQ (Ranking Task)](./samples/ranking-task-3-csharp-async.md)**: Troubleshooting `async void` crashes and deferred execution performance traps.
+6.  **[React Component Performance (Ranking Task)](./samples/ranking-task-2-react-performance.md)**: Eliminating excessive re-renders and preventing unstable function references over multiple rendering cycles.
 
 ## Structured Data Samples (JSON)
 
 I also provide structured versions of my evaluations for integration with RLHF pipelines:
 
-*   **[Ranking Task JSON](./samples/json/ranking.json)**
+*   **[Ranking Task (Python) JSON](./samples/json/ranking.json)**
+*   **[Ranking Task (C# Async) JSON](./samples/json/ranking-csharp-async.json)**
 *   **[Scoring Task (Java) JSON](./samples/json/scoring.json)**
 *   **[Scoring Task (C#) JSON](./samples/json/scoring-csharp.json)**
 *   **[Correction Task JSON](./samples/json/correction.json)**

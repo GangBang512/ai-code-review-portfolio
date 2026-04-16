@@ -1,0 +1,27 @@
+{
+  "task_id": "csharp-async-linq-005",
+  "task_type": "ranking",
+  "prompt": "Fix the application crash on API error and resolve the issue where cached data re-filters unnecessarily.",
+  "models": [
+    {
+      "model_id": "model_a",
+      "rank": 1,
+      "justification": "Identifies that async void causes unhandled exceptions and that LINQ deferred execution causes re-filtering. Corrects both logically and architecturally."
+    },
+    {
+      "model_id": "model_c",
+      "rank": 2,
+      "justification": "Fixes symptoms with try/catch and .ToList(), but retains the async void anti-pattern."
+    },
+    {
+      "model_id": "model_b",
+      "rank": 3,
+      "justification": "Only addresses the async void issue, ignoring the performance/caching bug."
+    }
+  ],
+  "technical_concepts": [
+    "SynchronizationContext Error Bubbling",
+    "LINQ Deferred Execution (Lazy Loading)",
+    "Task-based Asynchronous Pattern (TAP)"
+  ]
+}
