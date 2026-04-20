@@ -1,0 +1,40 @@
+{
+  "task_id": "java-string-comparison-004",
+  "task_type": "ranking",
+  "prompt": "Identify the bug in the login validation system and provide a corrected version. Password content matches but authentication fails.",
+  "original_code": "public boolean authenticate(String username, String password) {\n    String storedPassword = fetchPasswordFromDatabase(username);\n    if (storedPassword == null) return false;\n    if (password == storedPassword) return true;\n    return false;\n}",
+  "models": [
+    {
+      "model_id": "model_a",
+      "response": "Use .equals() instead of ==. == compares object references while .equals() compares string content. For null-safety, use Objects.equals(password, storedPassword).",
+      "rank": 1
+    },
+    {
+      "model_id": "model_b",
+      "response": "Change == to .equals(). .equals() compares the actual characters in the string.",
+      "rank": 2
+    },
+    {
+      "model_id": "model_c",
+      "response": "Change the return of the database fetch to a string literal so == works due to string interning.",
+      "rank": 3
+    }
+  ],
+  "justification": {
+    "summary": "Model A is preferred for deep technical insight and recommending null-safe patterns, while Model C is penalized for recommending an anti-pattern.",
+    "claims": [
+      {
+        "type": "Technical Depth",
+        "claim": "Model A explains the Reference vs Value distinction correctly.",
+        "evidence": "Model A mentions the heap vs string pool mechanics.",
+        "actionable": "Award full correctness points."
+      },
+      {
+        "type": "Security/Stability",
+        "claim": "Model C recommends a dangerous workaround.",
+        "evidence": "Suggests relying on interning side-effects for logical equality.",
+        "actionable": "Penalize heavily for promoting brittle code."
+      }
+    ]
+  }
+}
